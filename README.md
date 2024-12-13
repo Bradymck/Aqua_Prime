@@ -12,7 +12,7 @@
 
 ## 🌍 README Translations
 
-[中文说明](./README_CN.md) | [日本語の説明](./README_JA.md) | [한국어 설명](./README_KOR.md) | [Français](./README_FR.md) | [Português](./README_PTBR.md) | [Türkçe](./README_TR.md) | [Русский](./README_RU.md) | [Español](./README_ES.md) | [Italiano](./README_IT.md) | [ไทย](./README_TH.md)
+[中文说明](./README_CN.md) | [日本語の説明](./README_JA.md) | [한국어 설명](./README_KOR.md) | [Français](./README_FR.md) | [Português](./README_PTBR.md) | [Türkçe](./README_TR.md) | [Русский](./README_RU.md) | [Español](./README_ES.md) | [Italiano](./README_IT.md) | [ไทย](./README_TH.md) | [Deutsch](./README_DE.md)
 
 ## ✨ Features
 
@@ -50,7 +50,7 @@ git clone https://github.com/ai16z/eliza-starter.git
 
 cp .env.example .env
 
-pnpm i && pnpm start
+pnpm i && pnpm build && pnpm start
 ```
 
 Then read the [Documentation](https://ai16z.github.io/eliza/) to learn how to customize your Eliza.
@@ -90,7 +90,7 @@ sh scripts/start.sh
 
 ### Edit the character file
 
-1. Open `agent/src/character.ts` to modify the default character. Uncomment and edit.
+1. Open `packages/core/src/defaultCharacter.ts` to modify the default character. Uncomment and edit.
 
 2. To load custom characters:
     - Use `pnpm start --characters="path/to/your/character.json"`
