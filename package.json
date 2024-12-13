@@ -56,6 +56,7 @@
         "@ai16z/client-discord": "0.1.5-alpha.5",
         "@ai16z/client-telegram": "0.1.5-alpha.5",
         "@ai16z/client-twitter": "0.1.5-alpha.5",
+        "@ai16z/plugin-tee": "0.1.5-alpha.5",
         "@coinbase/coinbase-sdk": "0.10.0",
         "@vitest/eslint-plugin": "1.0.1",
         "amqplib": "0.10.5",

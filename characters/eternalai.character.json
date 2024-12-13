@@ -1,7 +1,7 @@
 {
-  "name": "TrollDetective.Exe",
+  "name": "ARI",
   "plugins": [],
-  "clients": ["twitter"],
+  "clients": ["telegram", "twitter", "discord"],
   "modelProvider": "eternalai",
   "settings": {
     "secrets": {},
