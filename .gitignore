@@ -81,3 +81,5 @@ tsup.config.bundled_*.mjs
 *.generated.*
 *.min.*
 *.map
+
+coverage
