@@ -90,9 +90,7 @@ export class PostgresDatabaseAdapter
         operation: () => Promise<T>,
         context: string
     ): Promise<T> {
-        return this.withCircuitBreaker(async () => {
-            return this.withRetry(operation);
-        }, context);
+        return this.withRetry(operation);
     }
 
     private async withRetry<T>(operation: () => Promise<T>): Promise<T> {
