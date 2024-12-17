@@ -9,13 +9,8 @@ node_modules
 .env.development
 .env.test
 .env.production
-<<<<<<< HEAD
-
-# Project specific
-=======
 .env.local
 .env_main
->>>>>>> upstream/main
 concatenated-output.ts
 embedding-cache.json
 packages/plugin-buttplug/intiface-engine
@@ -89,3 +84,6 @@ tsup.config.bundled_*.mjs
 
 coverage
 .eslintcache
+notes.md
+.gitignore
+.gitignore

@@ -24,7 +24,7 @@ PACKAGES=( $(find packages -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
 # Test packages in specified order
 for package in "${PACKAGES[@]}"; do
     package_path="packages/$package"
-    
+
     if [ ! -d "$package_path" ]; then
         echo -e "\033[1mPackage directory '$package' not found, skipping...\033[0m"
         continue
