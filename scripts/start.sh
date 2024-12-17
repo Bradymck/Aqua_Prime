@@ -1,39 +1,44 @@
 #!/bin/bash
-
-# Source nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-# Use Node 23.3.0
-nvm use 23.3.0
-
 # Check Node.js version
-NODE_VERSION=$(node -v | cut -d'v' -f2)
-REQUIRED_VERSION="23.3.0"
+REQUIRED_NODE_VERSION=22
+CURRENT_NODE_VERSION=$(node -v | cut -d'.' -f1 | sed 's/v//')
 
-echo "Current Node.js version: $NODE_VERSION"
-echo "Required Node.js version: $REQUIRED_VERSION"
-
-# Fix the version comparison logic
-if [ "$(printf '%s\n' "$NODE_VERSION" "$REQUIRED_VERSION" | sort -V | head -n1)" = "$NODE_VERSION" ] && [ "$NODE_VERSION" != "$REQUIRED_VERSION" ]; then
-    echo "Node.js version check failed. Please install version $REQUIRED_VERSION or higher"
+if (( CURRENT_NODE_VERSION < REQUIRED_NODE_VERSION && CURRENT_NODE_VERSION < 23 )); then
+    echo "Error: Node.js version must be $REQUIRED_NODE_VERSION or 23 or higher. Current version is $CURRENT_NODE_VERSION."
     exit 1
 fi
 
-# Continue with the rest of the script
-echo "Node.js version check passed"
+# Navigate to project root
+cd "$(dirname "$0")"/..
 
-# Clean install
-echo "Installing dependencies..."
-pnpm install
+# clean cache
+echo -e "\033[1mCleaning cache...\033[0m"
+if ! pnpm clean; then
+    echo -e "\033[1;31mFailed to clean cache\033[0m"
+    exit 1
+fi
 
-# Build
-echo "Building project..."
-pnpm build
 
-# Start
-echo "Starting project..."
-pnpm start
+# Install dependencies
+echo -e "\033[1mInstalling dependencies...\033[0m"
+if ! pnpm i ; then
+    echo -e "\033[1;31mFailed to install dependencies\033[0m"
+    exit 1
+fi
+
+# Build project
+echo -e "\033[1mBuilding project...\033[0m"
+if ! pnpm build; then
+    echo -e "\033[1;31mFailed to build project\033[0m"
+    exit 1
+fi
+
+# Start project
+echo -e "\033[1mStarting project...\033[0m"
+if ! pnpm start; then
+    echo -e "\033[1;31mFailed to start project\033[0m"
+    exit 1
+fi
 
 # Start client
 echo -e "\033[1mStarting client...\033[0m"
