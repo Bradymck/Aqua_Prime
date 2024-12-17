@@ -1,4 +1,4 @@
-import fs from "fs";
+const fs = require("fs");
 
 const EXPORTED_DATA_FILE = "tweets.json";
 const TWEETS_FILE = "exportedtweets.json";
