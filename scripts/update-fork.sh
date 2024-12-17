@@ -12,6 +12,11 @@ print_status() {
     echo -e "${BOLD}$1${NC}"
 }
 
+# Function to print warning messages
+print_warning() {
+    echo -e "${YELLOW}Warning: $1${NC}"
+}
+
 # Function to print error messages
 print_error() {
     echo -e "${RED}Error: $1${NC}"
@@ -65,15 +70,22 @@ for file in "${PROTECTED_FILES[@]}"; do
     git reset HEAD "$file" 2>/dev/null || true
 done
 
-# Commit changes
-print_status "Committing changes..."
-git commit -m "Update from upstream (automated) $(date +%Y-%m-%d)" || print_error "Failed to commit changes"
+# Check if there are changes to commit
+if git diff --cached --quiet; then
+    print_warning "No changes to commit - already up to date"
+else
+    # Commit changes
+    print_status "Committing changes..."
+    git commit -m "Update from upstream (automated) $(date +%Y-%m-%d)" || print_error "Failed to commit changes"
+fi
 
 # Switch back to main branch
 git checkout main || print_error "Failed to switch to main branch"
 
-# Merge changes from temporary branch
-git merge "$TEMP_BRANCH" || print_error "Failed to merge changes from temporary branch"
+# Merge changes from temporary branch if there were any
+if ! git diff --quiet main "$TEMP_BRANCH"; then
+    git merge "$TEMP_BRANCH" || print_error "Failed to merge changes from temporary branch"
+fi
 
 # Delete temporary branch
 git branch -D "$TEMP_BRANCH" || print_error "Failed to delete temporary branch"
@@ -81,4 +93,4 @@ git branch -D "$TEMP_BRANCH" || print_error "Failed to delete temporary branch"
 # Clean up backup directory
 rm -rf .backup
 
-print_status "${GREEN}Successfully updated fork while preserving custom implementation!${NC}" 
+print_status "${GREEN}Successfully checked for updates!${NC}"
