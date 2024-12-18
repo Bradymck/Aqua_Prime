@@ -7,14 +7,15 @@ import { getWalletKey } from "../keypairUtils";
 // Provider configuration
 const PROVIDER_CONFIG = {
     BIRDEYE_API: "https://public-api.birdeye.so",
+    COINGECKO_API: "https://api.coingecko.com/api/v3",
     MAX_RETRIES: 3,
     RETRY_DELAY: 2000,
     DEFAULT_RPC: "https://api.mainnet-beta.solana.com",
     GRAPHQL_ENDPOINT: "https://graph.codex.io/graphql",
     TOKEN_ADDRESSES: {
-        SOL: "So11111111111111111111111111111111111111112",
-        BTC: "3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh",
-        ETH: "7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs",
+        SOL: "solana",
+        BTC: "bitcoin",
+        ETH: "ethereum",
     },
 };
 
@@ -279,33 +280,75 @@ export class WalletProvider {
                 ethereum: { usd: "0" },
             };
 
-            for (const token of tokens) {
-                const response = await this.fetchWithRetry(
-                    runtime,
-                    `${PROVIDER_CONFIG.BIRDEYE_API}/defi/price?address=${token}`,
+            // First try with API key
+            try {
+                const response = await fetch(
+                    `${PROVIDER_CONFIG.COINGECKO_API}/simple/price?ids=${tokens.join(",")}&vs_currencies=usd`,
                     {
                         headers: {
-                            "x-chain": "solana",
+                            "Accept": "application/json",
+                            "X-CoinGecko-API-Key": runtime.getSetting("COINGECKO_API_KEY", "") || "",
                         },
                     }
                 );
 
-                if (response?.data?.value) {
-                    const price = response.data.value.toString();
-                    prices[
-                        token === SOL
-                            ? "solana"
-                            : token === BTC
-                              ? "bitcoin"
-                              : "ethereum"
-                    ].usd = price;
-                } else {
-                    console.warn(`No price data available for token: ${token}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data[SOL]?.usd) prices.solana.usd = data[SOL].usd.toString();
+                    if (data[BTC]?.usd) prices.bitcoin.usd = data[BTC].usd.toString();
+                    if (data[ETH]?.usd) prices.ethereum.usd = data[ETH].usd.toString();
+                    this.cache.set(cacheKey, prices);
+                    return prices;
                 }
-            }
 
-            this.cache.set(cacheKey, prices);
-            return prices;
+                // If we get a 401 or 429, try without API key
+                if (response.status === 401 || response.status === 429) {
+                    console.log("API key error or rate limit hit, trying without API key...");
+                    const publicResponse = await fetch(
+                        `${PROVIDER_CONFIG.COINGECKO_API}/simple/price?ids=${tokens.join(",")}&vs_currencies=usd`,
+                        {
+                            headers: {
+                                "Accept": "application/json",
+                            },
+                        }
+                    );
+
+                    if (!publicResponse.ok) {
+                        throw new Error(`HTTP error! status: ${publicResponse.status}`);
+                    }
+
+                    const data = await publicResponse.json();
+                    if (data[SOL]?.usd) prices.solana.usd = data[SOL].usd.toString();
+                    if (data[BTC]?.usd) prices.bitcoin.usd = data[BTC].usd.toString();
+                    if (data[ETH]?.usd) prices.ethereum.usd = data[ETH].usd.toString();
+                    this.cache.set(cacheKey, prices);
+                    return prices;
+                }
+
+                throw new Error(`HTTP error! status: ${response.status}`);
+            } catch (error) {
+                // If any error occurs with API key, try without it
+                console.log("Error with API key, trying without it:", error);
+                const publicResponse = await fetch(
+                    `${PROVIDER_CONFIG.COINGECKO_API}/simple/price?ids=${tokens.join(",")}&vs_currencies=usd`,
+                    {
+                        headers: {
+                            "Accept": "application/json",
+                        },
+                    }
+                );
+
+                if (!publicResponse.ok) {
+                    throw new Error(`HTTP error! status: ${publicResponse.status}`);
+                }
+
+                const data = await publicResponse.json();
+                if (data[SOL]?.usd) prices.solana.usd = data[SOL].usd.toString();
+                if (data[BTC]?.usd) prices.bitcoin.usd = data[BTC].usd.toString();
+                if (data[ETH]?.usd) prices.ethereum.usd = data[ETH].usd.toString();
+                this.cache.set(cacheKey, prices);
+                return prices;
+            }
         } catch (error) {
             console.error("Error fetching prices:", error);
             throw error;
