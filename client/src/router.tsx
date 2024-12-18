@@ -1,32 +1,51 @@
-// In your router configuration file (e.g., App.jsx or router.jsx)
-import { createBrowserRouter } from "react-router-dom";
-import Agents from "./Agents";
-import Agent from "./Agent"; // We'll create this component
-import Layout from "./Layout";
-import Chat from "./Chat";
-import Character from "./Character";
+import { createBrowserRouter } from 'react-router-dom';
+import App from './App';
+import Layout from './Layout';
+import Chat from './Chat';
+import Agents from './Agents';
+import Agent from './Agent';
+import Character from './Character';
+import DatingApp from './pages/DatingApp';
+import CharacterCreator from './pages/CharacterCreator';
+import SkinCreator from './pages/SkinCreator';
 
 export const router = createBrowserRouter([
-    {
-        path: "/",
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <App />,
+      },
+      {
+        path: '/chat',
+        element: <Chat />,
+      },
+      {
+        path: '/agents',
         element: <Agents />,
-    },
-    {
-        path: "/:agentId",
-        element: <Layout />,
-        children: [
-            {
-                path: "", // This matches /:agentId exactly
-                element: <Agent />,
-            },
-            {
-                path: "chat", // This matches /:agentId/chat
-                element: <Chat />,
-            },
-            {
-                path: "character", // This matches /:agentId/chat
-                element: <Character />,
-            },
-        ],
-    },
+      },
+      {
+        path: '/agent/:id',
+        element: <Agent />,
+      },
+      {
+        path: '/character',
+        element: <Character />,
+      },
+      {
+        path: '/dating',
+        element: <DatingApp />,
+      },
+      {
+        path: '/character-creator',
+        element: <CharacterCreator />,
+      },
+      {
+        path: '/skin-creator',
+        element: <SkinCreator />,
+      },
+    ],
+  },
 ]);
