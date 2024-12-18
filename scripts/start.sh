@@ -26,6 +26,12 @@ print_warning() {
 # Navigate to project root
 cd "$(dirname "$0")"/..
 
+# Add this near the beginning of your start.sh script
+if ! git remote | grep -q '^upstream$'; then
+    echo "Setting up upstream remote..."
+    git remote add upstream https://github.com/ai16z/eliza.git
+fi
+
 # Parse command line arguments
 UPDATE=false
 SKIP_VERSION_CHECK=false
