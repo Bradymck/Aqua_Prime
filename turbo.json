@@ -1,32 +1,13 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "tasks": {
-        "check-types": {
-            "dependsOn": ["build"]
-        },
-        "@ai16z/agent#check-types": {
-            "dependsOn": [
-                "@ai16z/plugin-solana#build",
-                "@ai16z/plugin-direct#build"
-            ]
-        },
         "build": {
-            "outputs": ["dist/**"],
-            "dependsOn": ["^@ai16z/eliza#build"]
+            "outputs": [".next/**", "!.next/cache/**"]
         },
-        "@ai16z/plugin-solana#build": {
-            "outputs": ["dist/**"],
-            "dependsOn": ["@ai16z/plugin-trustdb#build"]
-        },
-        "@ai16z/plugin-nft-generation#build": {
-            "dependsOn": ["@ai16z/plugin-node#build"]
-        },
-        "eliza-docs#build": {
-            "outputs": ["build/**"]
-        },
+        "lint": {},
         "dev": {
-            "persistent": true,
-            "cache": false
+            "cache": false,
+            "persistent": true
         }
     }
 }

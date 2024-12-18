@@ -7,8 +7,13 @@
   "dependencies": {
     "@ai16z/eliza": "workspace:*",
     "@types/better-sqlite3": "7.6.12",
+    "@types/react-rnd": "^8.0.0",
+    "@types/styled-components": "^5.1.34",
     "better-sqlite3": "11.6.0",
-    "sqlite-vec": "0.1.6"
+    "react-rnd": "^10.4.1",
+    "react-zoom-pan-pinch": "^3.3.0",
+    "sqlite-vec": "0.1.6",
+    "styled-components": "^6.1.1"
   },
   "devDependencies": {
     "tsup": "8.3.5"
