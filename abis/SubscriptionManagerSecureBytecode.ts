@@ -1,0 +1,1 @@
+export const SubscriptionManagerSecureBytecode = "0x..."; // Add your contract bytecode here 

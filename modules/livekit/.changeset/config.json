@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@2.2.0/schema.json",
+  "changelog": [
+    "@livekit/changesets-changelog-github",
+    {
+      "repo": "livekit/agents-js"
+    }
+  ],
+  "commit": false,
+  "fixed": [["@livekit/agents", "@livekit/agents-plugin-*"]],
+  "ignore": ["livekit-agents-examples"],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch"
+}

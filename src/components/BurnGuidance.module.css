@@ -1,0 +1,27 @@
+@keyframes multiColorGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px 10px rgba(255, 165, 0, 0.7);
+  }
+  25% {
+    box-shadow: 0 0 20px 10px rgba(255, 0, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(0, 255, 255, 0.7);
+  }
+  75% {
+    box-shadow: 0 0 20px 10px rgba(255, 0, 255, 0.7);
+  }
+}
+
+.burnGuidance {
+  animation: multiColorGlow 2s ease-in-out infinite, swellGlow 1s ease-in-out infinite;
+}
+
+@keyframes swellGlow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}

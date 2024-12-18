@@ -1,0 +1,1 @@
+export const AquaPrimeNFTBytecode = "0x..."; // Add your contract bytecode here 

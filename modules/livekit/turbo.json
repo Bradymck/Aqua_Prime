@@ -1,0 +1,39 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "globalEnv": [
+    "ELEVEN_API_KEY",
+    "OPENAI_API_KEY",
+    "LIVEKIT_URL",
+    "LIVEKIT_API_KEY",
+    "LIVEKIT_API_SECRET",
+    "LOG_LEVEL",
+    "AZURE_OPENAI_ENDPOINT",
+    "AZURE_OPENAI_DEPLOYMENT",
+    "AZURE_OPENAI_API_KEY",
+    "AZURE_OPENAI_ENTRA_TOKEN"
+  ],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "clean": {
+      "dependsOn": ["^clean"],
+      "outputs": [""]
+    },
+    "clean:build": {
+      "dependsOn": ["^clean:build"],
+      "outputs": ["dist/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "api:check": {
+      "cache": false,
+      "dependsOn": ["^build"]
+    },
+    "api:update": {
+      "dependsOn": ["^build"]
+    }
+  }
+}
