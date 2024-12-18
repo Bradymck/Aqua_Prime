@@ -45,7 +45,13 @@ src/components/game/
 src/services/game/
 src/hooks/game/
 src/utils/game/
-characters/ari.character.json
+
+# Game contracts
+contracts/MoonstoneToken*
+contracts/abi/AquaPrime*
+contracts/abi/Moonstone*
+contracts/interfaces/IAquaPrime*
+contracts/interfaces/IMoonstone*
 
 # Database
 prisma/
