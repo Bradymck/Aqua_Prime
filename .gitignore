@@ -46,12 +46,15 @@ src/services/game/
 src/hooks/game/
 src/utils/game/
 
-# Game contracts
+# Game contracts and types
 contracts/MoonstoneToken*
 contracts/abi/AquaPrime*
 contracts/abi/Moonstone*
 contracts/interfaces/IAquaPrime*
 contracts/interfaces/IMoonstone*
+monitoring/ContractMonitor.ts
+types/contracts*
+typechain/MoonstoneToken*
 
 # Database
 prisma/
