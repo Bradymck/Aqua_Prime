@@ -61,6 +61,9 @@ client/src/pages/DatingApp.tsx
 client/src/pages/CharacterCreator.tsx
 client/src/pages/SkinCreator.tsx
 
+# Game tests
+test/price-test.ts
+
 # Database
 prisma/
 *.db
