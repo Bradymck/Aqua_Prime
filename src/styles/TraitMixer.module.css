@@ -1,0 +1,92 @@
+.flash-in {
+  animation: flashIn 0.5s forwards;
+}
+
+@keyframes flashIn {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(2);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+.background-hidden {
+  opacity: 0;
+}
+
+.fade-in-background {
+  opacity: 0;
+  animation: fadeInBackground 2s forwards;
+}
+
+@keyframes fadeInBackground {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade-in animation for the new background */
+.fadeInBackground {
+  animation: fadeInBackground 1.5s ease-in-out forwards;
+}
+
+@keyframes fadeInBackground {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade-out animation for the previous background */
+.fadeOutBackground {
+  animation: fadeOutBackground 1.5s ease-in-out forwards;
+}
+
+@keyframes fadeOutBackground {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Background Trait Transitions */
+.background-enter {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+}
+
+.background-enter-active {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out; /* Reduced from 1.5s to 0.5s */
+}
+
+.background-exit {
+  opacity: 1;
+  position: absolute;
+  inset: 0;
+}
+
+.background-exit-active {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out; /* Reduced from 1.5s to 0.5s */
+}
+
+
+
+
+
+
