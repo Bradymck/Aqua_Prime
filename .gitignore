@@ -46,6 +46,12 @@ src/services/game/
 src/hooks/game/
 src/utils/game/
 
+# Database
+prisma/
+*.db
+*.sqlite
+*.sqlite3
+
 # IDE
 .vscode/
 .idea/
