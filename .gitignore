@@ -52,6 +52,11 @@ prisma/
 *.sqlite
 *.sqlite3
 
+# Game assets
+public/assets/
+public/audio/
+public/audio-processor.js
+
 # IDE
 .vscode/
 .idea/
