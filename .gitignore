@@ -45,6 +45,7 @@ src/components/game/
 src/services/game/
 src/hooks/game/
 src/utils/game/
+characters/ari.character.json
 
 # Database
 prisma/
@@ -60,3 +61,9 @@ public/audio-processor.js
 # IDE
 .vscode/
 .idea/
+
+# Cache and temporary files
+.turbo/
+data/
+debug_audio/
+content_cache/
