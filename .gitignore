@@ -55,6 +55,8 @@ contracts/interfaces/IMoonstone*
 monitoring/ContractMonitor.ts
 types/contracts*
 typechain/MoonstoneToken*
+abis/AquaPrime*
+abis/Moonstone*
 
 # Game client files
 client/src/pages/DatingApp.tsx
