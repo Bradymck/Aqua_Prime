@@ -56,6 +56,11 @@ monitoring/ContractMonitor.ts
 types/contracts*
 typechain/MoonstoneToken*
 
+# Game client files
+client/src/pages/DatingApp.tsx
+client/src/pages/CharacterCreator.tsx
+client/src/pages/SkinCreator.tsx
+
 # Database
 prisma/
 *.db
