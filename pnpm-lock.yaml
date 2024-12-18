@@ -15,7 +15,7 @@ importers:
   private:
     dependencies:
       '@prisma/client':
-        specifier: ^5.7.1
+        specifier: 5.22.0
         version: 5.22.0(prisma@5.22.0)
       '@privy-io/react-auth':
         specifier: 1.97.0
@@ -145,7 +145,7 @@ importers:
         specifier: 8.4.32
         version: 8.4.32
       prisma:
-        specifier: ^5.7.1
+        specifier: 5.22.0
         version: 5.22.0
       tailwindcss:
         specifier: 3.3.6
