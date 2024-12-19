@@ -135,3 +135,8 @@ You:  ["◎ Checking Twitter interactions"]
 ---
 
 sh scripts/start.sh --update
+
+
+cd private && git remote -v
+
+git remote -v

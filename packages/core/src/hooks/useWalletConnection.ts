@@ -4,18 +4,27 @@ export const useWalletConnection = () => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    // Add actual wallet connection logic here later
+    let mounted = true;
+
     const checkConnection = async () => {
       try {
         // Placeholder for wallet connection check
-        setIsConnected(false);
+        if (mounted) {
+          setIsConnected(false);
+        }
       } catch (error) {
         console.error('Error checking wallet connection:', error);
-        setIsConnected(false);
+        if (mounted) {
+          setIsConnected(false);
+        }
       }
     };
 
     checkConnection();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return { isConnected };

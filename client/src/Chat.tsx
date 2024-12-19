@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,10 @@ export default function Chat() {
     const [input, setInput] = useState("");
     const [messages, setMessages] = useState<TextResponse[]>([]);
 
+    const handleSuccess = useCallback((data: TextResponse[]) => {
+        setMessages(prev => [...prev, ...data]);
+    }, []);
+
     const mutation = useMutation({
         mutationFn: async (text: string) => {
             const res = await fetch(`/api/${agentId}/message`, {
@@ -30,12 +34,10 @@ export default function Chat() {
             });
             return res.json() as Promise<TextResponse[]>;
         },
-        onSuccess: (data) => {
-            setMessages((prev) => [...prev, ...data]);
-        },
+        onSuccess: handleSuccess,
     });
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
         if (!input.trim()) return;
 
@@ -44,11 +46,15 @@ export default function Chat() {
             text: input,
             user: "user",
         };
-        setMessages((prev) => [...prev, userMessage]);
+        setMessages(prev => [...prev, userMessage]);
 
         mutation.mutate(input);
         setInput("");
-    };
+    }, [input, mutation]);
+
+    const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setInput(e.target.value);
+    }, []);
 
     return (
         <div className="flex flex-col h-screen max-h-screen w-full">
@@ -88,7 +94,7 @@ export default function Chat() {
                     <form onSubmit={handleSubmit} className="flex gap-2">
                         <Input
                             value={input}
-                            onChange={(e) => setInput(e.target.value)}
+                            onChange={handleInputChange}
                             placeholder="Type a message..."
                             className="flex-1"
                             disabled={mutation.isPending}
