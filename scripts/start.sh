@@ -69,10 +69,10 @@ if [ "$UPDATE" = true ]; then
 fi
 
 # clean cache
-print_status "Cleaning cache..."
-if ! pnpm clean; then
-    print_error "Failed to clean cache"
-fi
+#print_status "Cleaning cache..."
+#if ! pnpm clean; then
+#    print_error "Failed to clean cache"
+#fi
 
 # Install dependencies
 print_status "Installing dependencies..."
