@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id            String    @id @default(uuid())
+  name          String
+  bio           String
+  location      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  nftMetadata   String    @default("{}")
+  isInGlobalPool Boolean  @default(true)
+  isActive      Boolean   @default(true)
+  ownerAddress  String?
+  likes         Like[]    @relation("ProfileLikes")
+  dislikes      Dislike[] @relation("ProfileDislikes")
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  profileId String
+  profile   Profile  @relation("ProfileLikes", fields: [profileId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Dislike {
+  id        String   @id @default(uuid())
+  userId    String
+  profileId String
+  profile   Profile  @relation("ProfileDislikes", fields: [profileId], references: [id])
+  createdAt DateTime @default(now())
+}
