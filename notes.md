@@ -134,9 +134,18 @@ You:  ["◎ Checking Twitter interactions"]
 
 ---
 
-sh scripts/start.sh --update
+# From the private directory
+cd private
+git add .
+git commit -m "Update private repository"
+git push origin main
 
+# From the private directory
+cd private
+git add .
+git commit -m "Update private repository"
+git push origin main
 
-cd private && git remote -v
+Overwrite if divergent:
 
-git remote -v
+git push --force origin main
