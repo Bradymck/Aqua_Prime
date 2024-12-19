@@ -2,7 +2,7 @@
     "name": "aqua-prime",
     "version": "1.0.0",
     "private": true,
-    "packageManager": "pnpm@8.12.1",
+    "packageManager": "yarn@4.0.2",
     "workspaces": [
         "private"
     ],
@@ -10,9 +10,14 @@
         "dev": "turbo run dev",
         "build": "turbo run build",
         "start": "turbo run start",
-        "lint": "turbo run lint"
+        "lint": "turbo run lint",
+        "clean": "rm -rf node_modules **/node_modules .turbo .next **/.next dist **/dist"
     },
     "devDependencies": {
         "turbo": "latest"
+    },
+    "dependencies": {
+        "@types/styled-components": "^5.1.34",
+        "styled-components": "^6.1.13"
     }
 }
