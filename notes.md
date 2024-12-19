@@ -133,19 +133,6 @@ You:  ["◎ Checking Twitter interactions"]
 
 
 ---
+Push all changes to all repositories:
 
-# From the private directory
-cd private
-git add .
-git commit -m "Update private repository"
-git push origin main
-
-# From the private directory
-cd private
-git add .
-git commit -m "Update private repository"
-git push origin main
-
-Overwrite if divergent:
-
-git push --force origin main
+push-all

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Colors for output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# Get the directory where the script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Change to the script directory
+cd "$SCRIPT_DIR"
+
+echo -e "${GREEN}🚀 Pushing changes to repositories...${NC}\n"
+
+# Push main repository
+echo -e "${GREEN}📦 Pushing main repository...${NC}"
+if git push origin main; then
+    echo -e "${GREEN}✅ Main repository pushed successfully${NC}"
+else
+    echo -e "${RED}❌ Failed to push main repository${NC}"
+    exit 1
+fi
+
+# Change to private directory and push
+echo -e "\n${GREEN}📦 Pushing private repository...${NC}"
+cd private
+if git push origin main; then
+    echo -e "${GREEN}✅ Private repository pushed successfully${NC}"
+else
+    echo -e "${RED}❌ Failed to push private repository${NC}"
+    exit 1
+fi
+
+# Return to original directory
+cd "$SCRIPT_DIR"
+
+echo -e "\n${GREEN}✨ All repositories pushed successfully!${NC}"
