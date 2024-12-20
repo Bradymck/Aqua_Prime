@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 
 // Update the dynamic import to use the correct path and add ssr: false
 const PlatypusPassions = dynamic(
-  () => import('../private/components/PlatypusPassions/PlatypusPassions'),
+  () => import('../components/PlatypusPassions/PlatypusPassions'),
   {
     ssr: false,
     loading: () => (
