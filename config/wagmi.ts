@@ -1,27 +1,33 @@
-import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
-import { mainnet } from 'viem/chains'
-import { Chain } from 'viem'
+import { createConfig } from 'wagmi'
+import { type Chain, createPublicClient, http } from 'viem'
+import { baseSepolia } from 'wagmi/chains'
 
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || ''
+// Configure Base Sepolia chain
+const baseSepoliaChain = {
+  id: 84532,
+  name: 'Base Sepolia',
+  network: 'base-sepolia',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Ether',
+    symbol: 'ETH',
+  },
+  rpcUrls: {
+    public: { http: ['https://sepolia.base.org'] },
+    default: { http: ['https://sepolia.base.org'] },
+  },
+  blockExplorers: {
+    default: { name: 'BaseScan', url: 'https://sepolia.basescan.org' },
+  },
+  testnet: true,
+} as const;
 
-const metadata = {
-  name: 'Aqua Prime',
-  description: 'Web3 Dating App',
-  url: 'https://aquaprime.io',
-  icons: ['https://avatars.githubusercontent.com/u/37784886']
-}
-
-const chains: readonly [Chain, ...Chain[]] = [mainnet]
-
-export const config = defaultWagmiConfig({
-  chains,
-  projectId,
-  metadata,
-  enableWalletConnect: true,
-  enableInjected: true,
-  enableEIP6963: true,
-  enableCoinbase: true,
+export const config = createConfig({
+  chains: [baseSepoliaChain],
+  transports: {
+    [baseSepoliaChain.id]: http()
+  }
 })
 
-export { projectId, chains }
+export { baseSepoliaChain }
 export default config;
