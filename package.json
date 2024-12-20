@@ -29,6 +29,7 @@
         "@web3modal/react": "^2.7.1",
         "@web3modal/wagmi": "^5.1.11",
         "styled-components": "^6.1.13",
+        "supports-color": "^10.0.0",
         "viem": "^2.21.55",
         "wagmi": "^2.14.3"
     }
