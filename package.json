@@ -16,15 +16,20 @@
         "clean": "rm -rf node_modules **/node_modules .turbo .next **/.next dist **/dist"
     },
     "devDependencies": {
+        "@types/next": "^9.0.0",
+        "@types/react": "^18.2.61",
         "turbo": "latest"
     },
     "dependencies": {
+        "@tanstack/react-query": "5.13.4",
         "@types/styled-components": "^5.1.34",
         "@wagmi/core": "^2.6.1",
-        "@web3modal/wagmi": "^4.0.0",
         "@web3modal/core": "^4.0.0",
+        "@web3modal/ethereum": "^2.7.1",
+        "@web3modal/react": "^2.7.1",
+        "@web3modal/wagmi": "^5.1.11",
         "styled-components": "^6.1.13",
-        "viem": "^2.7.9",
-        "wagmi": "^2.5.7"
+        "viem": "^2.21.55",
+        "wagmi": "^2.14.3"
     }
 }

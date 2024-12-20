@@ -1,20 +1,27 @@
-import { createConfig, fallback, http } from '@wagmi/core'
-import { mainnet } from '@wagmi/core/chains'
-import { defaultWagmiConfig } from '@web3modal/wagmi'
+import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
+import { mainnet } from 'viem/chains'
+import { Chain } from 'viem'
 
-// Get projectId from environment variable
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || ''
 
-// Create wagmi config
+const metadata = {
+  name: 'Aqua Prime',
+  description: 'Web3 Dating App',
+  url: 'https://aquaprime.io',
+  icons: ['https://avatars.githubusercontent.com/u/37784886']
+}
+
+const chains: readonly [Chain, ...Chain[]] = [mainnet]
+
 export const config = defaultWagmiConfig({
-  chains: [mainnet],
+  chains,
   projectId,
-  metadata: {
-    name: 'Aqua Prime',
-    description: 'Web3 Dating App',
-    url: 'https://aquaprime.io',
-    icons: ['https://avatars.githubusercontent.com/u/37784886']
-  }
+  metadata,
+  enableWalletConnect: true,
+  enableInjected: true,
+  enableEIP6963: true,
+  enableCoinbase: true,
 })
 
+export { projectId, chains }
 export default config;
