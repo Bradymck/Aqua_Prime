@@ -9,6 +9,7 @@
         "packages/*"
     ],
     "scripts": {
+        "compile:contracts": "nvm use 20 && cd contracts && npx hardhat compile && cd .. && nvm use 32",
         "dev": "turbo run dev",
         "build": "turbo run build",
         "start": "turbo run start",
@@ -16,21 +17,42 @@
         "clean": "rm -rf node_modules **/node_modules .turbo .next **/.next dist **/dist"
     },
     "devDependencies": {
+        "@openzeppelin/contracts": "5.0.1",
         "@types/next": "^9.0.0",
         "@types/react": "^18.2.61",
+        "browserify-zlib": "^0.2.0",
+        "crypto-browserify": "^3.12.1",
+        "https-browserify": "^1.0.0",
+        "os-browserify": "^0.3.0",
+        "prisma": "5.22.0",
+        "stream-browserify": "^3.0.0",
+        "stream-http": "^3.2.0",
         "turbo": "latest"
     },
     "dependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+        "@prisma/client": "^5.10.2",
+        "@privy-io/react-auth": "1.98.4",
         "@tanstack/react-query": "5.13.4",
+        "@types/node": "^20.17.10",
         "@types/styled-components": "^5.1.34",
-        "@wagmi/core": "^2.6.1",
-        "@web3modal/core": "^4.0.0",
-        "@web3modal/ethereum": "^2.7.1",
-        "@web3modal/react": "^2.7.1",
-        "@web3modal/wagmi": "^5.1.11",
+        "@wagmi/core": "1.4.13",
+        "@web3modal/ethereum": "2.7.1",
+        "@web3modal/react": "2.7.1",
+        "@web3modal/wagmi": "3.5.7",
+        "dotenv": "^16.4.7",
+        "hardhat": "^2.22.17",
+        "lucide-react": "^0.344.0",
+        "next": "^14.0.4",
         "styled-components": "^6.1.13",
         "supports-color": "^10.0.0",
-        "viem": "^2.21.55",
-        "wagmi": "^2.14.3"
+        "ts-node": "^10.9.2",
+        "typescript": "5.3.3",
+        "viem": "1.21.4",
+        "wagmi": "1.4.13"
+    },
+    "peerDependencies": {
+        "react": ">=18",
+        "react-dom": ">=18"
     }
 }

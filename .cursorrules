@@ -1,9 +1,136 @@
-this is a Web3/NFT-based dating app with a unique twist - it's centered around platypus characters. Let me break down the key components and what needs to be fixed:
+Aqua Prime - Web3/NFT Dating App with Platypus Characters
+
+@platypusPassions.tsx is core to app and game
+
+Architecture:
+- Dual Repository Structure:
+  1. Open Source (Eliza Framework Integration):
+     - Located in /packages directory
+     - Handles social features and AI interactions
+     - Multi-platform support (Discord, Telegram, etc.)
+     - Base NFT generation capabilities
+     - Public API interfaces
+
+  2. Private Game Components:
+     - Located in /private directory
+     - Core dating mechanics and algorithms
+     - Proprietary matching system
+     - Custom platypus character system
+     - Monetization features
+     - Private game assets
+
+- Shared Infrastructure:
+  - Smart contracts in /contracts directory
+  - Deployment scripts in /scripts directory
+  - Base configuration and types
+  - Common utilities and interfaces
+
 Core Features:
-Profile Generation System
-Dating App Interface
-Chat System
-NFT/Web3 Integration
-Virtual Currency System (Sand Dollars 🐚 and Moonstones 🌙)
-Eliza Agent framework at the core of the app
+1. Profile Generation System (Private)
+   - NFT-based platypus character profiles
+   - Character customization and traits
+   - Profile minting and management
+   - NFT generation with unique traits
+   - Profile metadata storage and updates
+
+2. Dating App Interface (Private)
+   - Match-making system
+   - Profile browsing and interaction
+   - Character compatibility scoring
+   - Real-time chat and interactions
+   - Profile discovery and recommendations
+
+3. Web3 Integration (Shared)
+   - Smart contracts on Base network (mainnet and sepolia)
+   - NFT profile contracts (PlatypusProfile.sol)
+   - Virtual currency contracts (MoonstoneToken.sol)
+   - Subscription management system
+   - Automated token burning mechanics
+   - Web3Modal for wallet connections
+
+4. Virtual Currency System (Shared)
+   - Moonstones (🌙) - Primary token for transactions
+   - Sand Dollars (🐚) - Secondary reward token
+   - Token burning mechanics for features
+   - Token staking and rewards
+   - Subscription-based access control
+
+5. Eliza Agent Framework (Open Source)
+   - AI-powered character interactions
+   - Chat system integration
+   - Personality matching
+   - Character backstory generation
+   - Dynamic response system
+   - Multi-platform support (Discord, Telegram, etc.)
+
+Project Rules:
+- Keep private game logic in /private directory
+- Use Eliza framework as service layer for social/AI features
+- Public assets must be in /app/public
+- Components reference assets from app's public directory
+- Never modify .env or .env.local files
+- Run everything with workspace -w flag
+- Preserve existing functionality, never remove code
+- Make minimal necessary changes
+- Break large files into manageable components
+- Maintain clear boundaries between open/closed source
+- Use proper interfaces for framework integration
+- Always start with the simplest solution:
+  - Use built-in functionality of frameworks/libraries first
+  - Only add complexity when absolutely necessary
+  - Let integrated tools handle their responsibilities
+  - Example: Use Privy's built-in provider instead of custom wagmi setup
+  - Example: Use direct contract calls instead of complex abstractions
+  - Example: Let frameworks handle edge cases they're designed for
+
+Node Version Management:
+- Main project requires Node.js v32 (for Eliza framework)
+- Contract compilation requires Node.js v20 (for Hardhat)
+- Use .nvmrc files to manage Node versions:
+  - Root .nvmrc: v32.0.0
+  - contracts/.nvmrc: v20.11.0
+- Use compile:contracts script for contract compilation
+- Never manually switch Node versions
+- All contract-related tasks must use Node v20
+- All main project tasks must use Node v32
+
+Development Setup:
+- Uses pnpm for package management
+- Hardhat for smart contract development
+- Base network for deployment
+- Next.js 14 for frontend
+- TypeScript throughout
+- Turbo for monorepo management
+- Prisma for database management
+- Web3Modal for wallet integration
+- OpenAI integration for AI features
+- Framer Motion for animations
+- Styled Components best practices:
+  - Use singleton pattern to avoid multiple instances
+  - Import from shared barrel file
+  - Example: import { styled } from '@/styles'
+  - Never import directly from 'styled-components'
+
+Cleanup Patterns:
+- Always clean up subscriptions and intervals in useEffect
+- Use AbortController for fetch requests
+- Clear timeouts and intervals on component unmount
+- Remove event listeners when components unmount
+- Example: clearInterval in useBalances hook
+- Example: cleanup WalletConnect modal on unmount
+
+Deployment:
+- Smart contracts deployed to Base mainnet and sepolia
+- Frontend deployed to Vercel
+- Assets served from Vercel Blob storage
+- Database hosted on PlanetScale
+- Agent system runs on dedicated infrastructure
+
+Security Considerations:
+- Protect private game logic from reverse engineering
+- Implement proper access controls between layers
+- Keep sensitive algorithms protected
+- Maintain separate databases for private/public data
+- Use proper encryption for sensitive data
+- Implement secure API interfaces
 
