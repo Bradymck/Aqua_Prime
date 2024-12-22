@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import prisma from '@/app/lib/prisma';
 
 export async function GET(request: Request) {
   try {
@@ -72,8 +72,20 @@ export async function GET(request: Request) {
         }
       });
 
+      // Parse nftMetadata if it's a string
+      let parsedMetadata;
+      try {
+        parsedMetadata = typeof profile.nftMetadata === 'string'
+          ? JSON.parse(profile.nftMetadata)
+          : profile.nftMetadata;
+      } catch (error) {
+        console.error('Error parsing nftMetadata:', error);
+        parsedMetadata = {};
+      }
+
       return {
         ...profile,
+        nftMetadata: parsedMetadata,
         totalLikes,
         isPopular: profile.isInGlobalPool
       };

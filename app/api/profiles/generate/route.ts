@@ -1,20 +1,43 @@
 import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
-import prisma from '../../../lib/prisma';
+import { PrismaClient } from '@prisma/client';
 import { generateName } from '../../../lib/nameGenerator';
 import { generateBio } from '../../../lib/bioGenerator';
 
+const prisma = new PrismaClient();
+
 const AVAILABLE_TRAITS = {
-  background: ['Cyberpunk City', 'Zen Garden', 'Space Station', 'Underwater Lab'],
-  skin: ['Classic', 'Neon', 'Metallic', 'Holographic'],
-  eyes: ['Determined', 'Curious', 'Playful', 'Wise'],
-  bill: ['Standard', 'Chrome', 'Glowing', 'Crystal'],
-  clothes: ['Tech Suit', 'Lab Coat', 'Ninja Gear', 'Royal Robe'],
-  tail: ['Sleek', 'Fluffy', 'Robotic', 'Ethereal'],
-  head: ['Plain', 'Cyber Visor', 'Crown', 'Halo'],
-  feet: ['Webbed', 'Hover Boots', 'Ninja Tabi', 'Royal Slippers'],
-  leftHand: ['Empty', 'Laser Sword', 'Scroll', 'Magic Orb'],
-  rightHand: ['Empty', 'Shield', 'Staff', 'Crystal Ball']
+  background: [
+    'vapor_wave', 'cyber_punk', 'retro_wave', 'digital_art', 'pixel_art',
+    'red_spiral', 'blue_spiral', 'green_spiral', 'Luminous', 'Beach',
+    'Studio', 'system_error'
+  ],
+  skin: [
+    'brown', 'confetti', 'zombie_skin', 'dark_purple', 'navy',
+    'trippy', 'cooked', 'infected', 'clear', 'erased'
+  ],
+  eyes: [
+    'Crazy', 'Scared', 'Mad', 'Suspicious', 'Dead',
+    'Oni', 'Love', 'Snek', 'Apathetic', 'Targets'
+  ],
+  bill: [
+    'grit', 'lipstick', 'fangs', 'teeth', 'cyborg',
+    'relaxed', 'tongue', 'nervous'
+  ],
+  clothes: [
+    'stripper', 'white_slav', 'aqua_man', 'aqua_hoodie', 'cloud_raincoat',
+    'baker', 'anarchy', 'awoken'
+  ],
+  tail: [
+    'azure_furry', 'green', 'brown_fist', 'bones', 'black_usb',
+    'white_usb', 'bone'
+  ],
+  head: [
+    'Monocle', 'Basketball', 'Watch', 'spike_bat', 'wine_bottle'
+  ],
+  feet: [
+    'old_leather', 'blue_space'
+  ]
 };
 
 function getRandomItem<T>(array: T[]): T {
@@ -23,9 +46,11 @@ function getRandomItem<T>(array: T[]): T {
 
 export async function POST(request: Request) {
   try {
-    const { count = 1, walletAddress } = await request.json();
+    const { count = 1, walletAddress, isBurned = false } = await request.json();
+    console.log('[Profile Generation] Request received:', { count, walletAddress, isBurned });
 
     if (!walletAddress) {
+      console.error('[Profile Generation] Missing wallet address');
       return NextResponse.json(
         { success: false, error: 'Wallet address is required' },
         { status: 400 }
@@ -36,83 +61,90 @@ export async function POST(request: Request) {
 
     for (let i = 0; i < count; i++) {
       const id = uuidv4();
+      console.log('[Profile Generation] Generating profile:', { id, index: i + 1, total: count });
 
-      const profile = {
-        id,
-        ownerAddress: walletAddress,
-        name: generateName(),
-        bio: generateBio(),
-        location: "Platypus Passions",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        nftMetadata: JSON.stringify({
-          // Base traits
-          background: getRandomItem(AVAILABLE_TRAITS.background),
-          skin: getRandomItem(AVAILABLE_TRAITS.skin),
-          eyes: getRandomItem(AVAILABLE_TRAITS.eyes),
-          bill: getRandomItem(AVAILABLE_TRAITS.bill),
-          clothes: getRandomItem(AVAILABLE_TRAITS.clothes),
-          tail: getRandomItem(AVAILABLE_TRAITS.tail),
-          head: getRandomItem(AVAILABLE_TRAITS.head),
-          feet: getRandomItem(AVAILABLE_TRAITS.feet),
-          leftHand: getRandomItem(AVAILABLE_TRAITS.leftHand),
-          rightHand: getRandomItem(AVAILABLE_TRAITS.rightHand),
-          // Personality
-          alignment: getRandomItem(['White Hat', 'Grey Hat', 'Black Hat']),
-          faction: getRandomItem(['Cyber Knights', 'Data Pirates', 'Code Monks', 'Unaffiliated']),
-          mbti: getRandomItem(['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP']),
-          zodiac: getRandomItem(['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio']),
-          // Additional traits
-          goals: [
-            'Become a master hacker',
-            'Find true digital love'
-          ],
-          flaws: [
-            'Too much screen time',
-            'Addicted to crypto'
-          ],
-          stats: {
-            strength: Math.floor(Math.random() * 100),
-            intelligence: Math.floor(Math.random() * 100),
-            charisma: Math.floor(Math.random() * 100),
-            luck: Math.floor(Math.random() * 100)
-          },
-          personalityTraits: [
-            getRandomItem(['Strategic', 'Mysterious', 'Playful', 'Creative', 'Ambitious']),
-            getRandomItem(['Analytical', 'Intuitive', 'Adventurous', 'Cautious', 'Bold']),
-            getRandomItem(['Innovative', 'Traditional', 'Rebellious', 'Diplomatic', 'Direct'])
-          ],
-          visualTraits: [
-            {
-              dominant: getRandomItem(['vapor_wave', 'cyber_punk', 'retro_wave', 'digital_art', 'pixel_art']),
-              r1: getRandomItem(['great_wave', 'neon_city', 'matrix_code', 'binary_rain', 'glitch_art']),
-              r2: getRandomItem(['blue_ka_pow', 'red_flash', 'purple_haze', 'green_matrix', 'yellow_spark']),
-              r3: getRandomItem(['white_zoom', 'black_void', 'rainbow_burst', 'static_noise', 'data_stream'])
-            }
-          ],
-          hormonalTraits: [
-            {
-              level: Math.floor(Math.random() * 100),
-              baseline: Math.floor(Math.random() * 100),
-              volatility: Math.floor(Math.random() * 100),
-              recovery: Math.floor(Math.random() * 100)
-            }
-          ]
-        }),
-        isInGlobalPool: true,
-        isActive: true
+      const metadata = {
+        // Base traits for image layers
+        background: getRandomItem(AVAILABLE_TRAITS.background),
+        skin: getRandomItem(AVAILABLE_TRAITS.skin),
+        eyes: getRandomItem(AVAILABLE_TRAITS.eyes),
+        bill: getRandomItem(AVAILABLE_TRAITS.bill),
+        clothes: getRandomItem(AVAILABLE_TRAITS.clothes),
+        tail: getRandomItem(AVAILABLE_TRAITS.tail),
+        head: getRandomItem(AVAILABLE_TRAITS.head),
+        feet: getRandomItem(AVAILABLE_TRAITS.feet),
+        outline: 'default', // Default outline template
+        // Personality traits
+        personalityTraits: [
+          getRandomItem(['Strategic', 'Mysterious', 'Playful', 'Creative', 'Ambitious']),
+          getRandomItem(['Analytical', 'Intuitive', 'Adventurous', 'Cautious', 'Bold']),
+          getRandomItem(['Innovative', 'Traditional', 'Rebellious', 'Diplomatic', 'Direct'])
+        ],
+        // Stats
+        stats: {
+          strength: Math.floor(Math.random() * 100),
+          intelligence: Math.floor(Math.random() * 100),
+          charisma: Math.floor(Math.random() * 100),
+          luck: Math.floor(Math.random() * 100)
+        },
+        visualTraits: [
+          {
+            dominant: getRandomItem(AVAILABLE_TRAITS.background),
+            r1: getRandomItem(AVAILABLE_TRAITS.background),
+            r2: getRandomItem(AVAILABLE_TRAITS.background),
+            r3: getRandomItem(AVAILABLE_TRAITS.background)
+          }
+        ]
       };
 
-      const createdProfile = await prisma.profile.create({
-        data: profile
-      });
+      try {
+        const name = generateName();
+        const bio = generateBio();
+        console.log('[Profile Generation] Generated profile details:', { id, name, bioLength: bio.length });
 
-      profiles.push(createdProfile);
+        // Create profile with stringified metadata
+        const profile = await prisma.profile.create({
+          data: {
+            id,
+            ownerAddress: walletAddress,
+            name,
+            bio,
+            location: "Platypus Passions",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            nftMetadata: JSON.stringify(metadata),
+            isInGlobalPool: !isBurned,
+            isActive: true
+          }
+        });
+
+        console.log('[Profile Generation] Profile created successfully:', {
+          id: profile.id,
+          ownerAddress: profile.ownerAddress,
+          name: profile.name
+        });
+
+        // Return profile with parsed metadata
+        profiles.push({
+          ...profile,
+          nftMetadata: metadata // Return the original metadata object
+        });
+
+      } catch (error) {
+        console.error('[Profile Generation] Error creating profile:', error);
+        throw error;
+      }
     }
 
-    return NextResponse.json({ success: true, profiles });
+    return NextResponse.json({
+      success: true,
+      data: {
+        profiles
+      }
+    });
+
   } catch (error) {
-    console.error('Error generating profiles:', error);
+    console.error('[Profile Generation] Error:', error);
     return NextResponse.json(
       {
         success: false,
@@ -121,5 +153,7 @@ export async function POST(request: Request) {
       },
       { status: 500 }
     );
+  } finally {
+    await prisma.$disconnect();
   }
 }

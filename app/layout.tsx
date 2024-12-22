@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { GlobalStyle } from "./styles/GlobalStyle";
-import { StyledComponentsRegistry } from "./lib/styled-components";
-import "@/private/styles/globals.css";
+import "./globals.css";
 import { Providers } from "./providers";
-import { Toaster } from "./components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Platypus Passions",
-  description: "Web3 Dating App for Platypus Enthusiasts",
+  description: "Web3 Dating App with Platypus Characters",
 };
 
 export default function RootLayout({
@@ -21,13 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StyledComponentsRegistry>
-          <GlobalStyle />
-          <Providers>
+        <Providers>
+          <main className="min-h-screen bg-gradient-to-b from-purple-900 to-black">
             {children}
-            <Toaster />
-          </Providers>
-        </StyledComponentsRegistry>
+          </main>
+        </Providers>
       </body>
     </html>
   );

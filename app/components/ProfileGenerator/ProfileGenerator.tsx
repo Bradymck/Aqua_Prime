@@ -61,13 +61,21 @@ export function ProfileGenerator({ onLoadLikedProfiles }: ProfileGeneratorProps)
         body: JSON.stringify({
           walletAddress: address,
           count: 1,
+          isBurned: true
         }),
       })
 
-      if (!response.ok) throw new Error('Failed to generate profile')
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to generate profile')
+      }
 
-      const data = await response.json()
+      const { data } = await response.json()
       const profile = data.profiles[0]
+
+      if (!profile) {
+        throw new Error('No profile generated')
+      }
 
       setGeneratedProfile(profile)
 
@@ -84,7 +92,7 @@ export function ProfileGenerator({ onLoadLikedProfiles }: ProfileGeneratorProps)
       console.error('Error generating profile:', error)
       toast({
         title: "Error",
-        description: "Failed to generate profile. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to generate profile. Please try again.",
         variant: "destructive"
       })
     } finally {

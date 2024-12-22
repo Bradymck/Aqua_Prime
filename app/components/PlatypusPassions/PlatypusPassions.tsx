@@ -76,6 +76,25 @@ export default function PlatypusPassions() {
     <div className="min-h-screen bg-gradient-to-b from-purple-900 to-black p-4">
       <div className="max-w-md mx-auto">
         <h1 className="text-4xl font-bold text-white text-center mb-8">Platypus Passions</h1>
+
+        {/* Navigation */}
+        <div className="flex justify-center space-x-4 mb-8">
+          <Button
+            variant="ghost"
+            className="text-pink-400 hover:text-pink-300"
+            onClick={() => setCurrentView('generate')}
+          >
+            Generate
+          </Button>
+          <Button
+            variant="ghost"
+            className="text-pink-400 hover:text-pink-300"
+            onClick={() => window.location.href = '/profile-pool'}
+          >
+            Profile Pool
+          </Button>
+        </div>
+
         {currentView === 'generate' && (
           <>
             <div className="text-center mb-8">
