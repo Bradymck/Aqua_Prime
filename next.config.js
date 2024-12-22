@@ -19,7 +19,8 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     unoptimized: true,
     domains: ['localhost'],
-    disableStaticImages: false
+    disableStaticImages: false,
+    formats: ['image/webp', 'image/png', 'image/jpeg', 'image/gif']
   },
   productionBrowserSourceMaps: true,
   experimental: {
